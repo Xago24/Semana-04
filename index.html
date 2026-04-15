@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>El Faro - Noticias</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ESTILOS ORIGINALES */
+        * {
+            font-family: 'Montserrat', sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        /* Estilo para el reloj vivo */
+        #reloj-contenedor {
+            font-size: 1.1rem;
+            margin-top: 15px;
+            font-weight: 300;
+            color: #e0f2fe;
+        }
+
+        nav {
+            background-color: #005599;
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: underline;
+            font-weight: 400;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        section {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        h2 {
+            border-left: 5px solid #005599;
+            padding-left: 15px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        /* Contador de artículos */
+        .contador-info {
+            background: #003366;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .noticias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .articulo {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .articulo:hover {
+            background-color: #000000;
+            color: #ffffff;
+            transform: translateY(-5px);
+        }
+
+        .articulo:hover h4, .articulo:hover h3 { color: #ffffff; }
+
+        .articulo h4 {
+            margin-top: 0;
+            color: #003366;
+            min-height: 50px;
+        }
+
+        img, video, audio {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        /* Formularios */
+        .form-contenedor {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+        }
+
+        .form-group { margin-bottom: 15px; }
+
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #005599;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        button:hover { background-color: #003366; }
+
+        footer {
+            background-color: #c9d2d0;
+            color: #31231e;
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <img src="ElFaro.png" alt="Logo El Faro" width="80" height="80">
+        <h1>El Faro</h1>
+        <div id="reloj-contenedor">
+            <span id="reloj">Cargando fecha y hora...</span>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#inicio">Noticias</a>
+        <a href="#admin">Publicar</a>
+        <a href="#contacto">Contacto</a>
+    </nav>
+
+    <section id="inicio">
+        <h2>Panel de Noticias</h2>
+        
+        <div class="contador-info">
+            Artículos disponibles: <span id="num-articulos">0</span>
+        </div>
+
+        <div id="contenedor-articulos" class="noticias-grid">
+            </div>
+    </section>
+
+    <section id="admin">
+        <h2>Agregar Nuevo Artículo</h2>
+        <div class="form-contenedor">
+            <form id="form-nuevo-articulo">
+                <div class="form-group">
+                    <label for="titulo">Título del Artículo</label>
+                    <input type="text" id="nuevo-titulo" required placeholder="Escribe el titular aquí...">
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="nuevo-desc" rows="4" required placeholder="Escribe el contenido..."></textarea>
+                </div>
+                <button type="submit">Publicar Artículo</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="contacto">
+        <h2>Formulario de Contacto</h2>
+        <div class="form-contenedor">
+            <form id="form-contacto">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" id="cont-nombre" required>
+                </div>
+                <div class="form-group">
+                    <label>Mensaje</label>
+                    <textarea id="cont-mensaje" rows="4" required></textarea>
+                </div>
+                <button type="submit">Enviar Mensaje</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 El Faro - Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        /* ==========================================
+           1. RELOJ EN VIVO
+           ========================================== */
+        function actualizarReloj() {
+            const ahora = new Date();
+            const opciones = { 
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+                hour: '2-digit', minute: '2-digit', second: '2-digit' 
+            };
+            document.getElementById('reloj').textContent = ahora.toLocaleDateString('es-ES', opciones);
+        }
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj();
+
+
+        /* ==========================================
+           2, 4 e HISTORIAL DE NOTICIAS
+           ========================================== */
+        const grid = document.getElementById('contenedor-articulos');
+        const contadorTxt = document.getElementById('num-articulos');
+        let total = 0;
+
+        // Todas tus noticias anteriores guardadas como objetos
+        const noticiasIniciales = [
+            { t: "Trasladan en riesgo vital a menor tras ataque en colegio de Calama", d: "El estudiante presenta estado crítico y fue trasladado vía aérea al Hospital Regional de Antofagasta." },
+            { t: "Green Day se suma al Super Bowl 2026 con show inaugural", d: "La banda californiana abrirá el Super Bowl LX en su hogar, celebrando 60 años de historia de la NFL.", extra: '<h3>Audio</h3><audio controls><source src="Green_Day_American_Idiot.mp3" type="audio/mpeg"></audio>' },
+            { t: "Criteria: 64% no confía en razones del gobierno por alza de combustibles", d: "La desconfianza alcanza niveles críticos frente a la gestión de José Antonio Kast.", extra: '<video controls><source src="Combustibles al alza.mp4" type="video/mp4"></video>' },
+            { t: 'La "Roja" presenta la nómina para el Sudamericano Sub 17', d: "Ariel Leporati convocó a 22 jugadores, con fuerte presencia de Universidad Católica." },
+            { t: 'Jannik Sinner va por la hazaña de Marcelo "Chino" Ríos', d: "El italiano buscará el 'Sunshine Double' en la final de Miami emulando lo hecho por el chileno en 1998." },
+            { t: "Gobierno analiza impedir hinchas de Boca ante la UC", d: "El duelo en el nuevo 'Claro Arena' podría jugarse sin público visitante por seguridad." },
+            { t: "Betsson analiza el mercado chileno en 2026", d: "La firma de apuestas online busca reglas claras tras los fallos de la Corte Suprema." },
+            { t: "Dólar revierte alza ante repunte del cobre", d: "El billete verde cerró en $923,50 impulsado por el valor del metal rojo alcanzando los US$5,50." },
+            { t: "EE.UU. crece apenas un 0,7% en el último trimestre", d: "La economía estadounidense sufre el impacto del cierre de gobierno y tensiones geopolíticas." }
+        ];
+
+        // Función para renderizar una noticia en pantalla
+        function agregarNoticiaAlDOM(titulo, descripcion, extra = "", alInicio = false) {
+            const art = document.createElement('article');
+            art.className = 'articulo';
+            art.innerHTML = `<h4>${titulo}</h4><p>${descripcion}</p>${extra}`;
+            console.log(art.innerHTML);
+            
+            if (alInicio) grid.prepend(art);
+            else grid.appendChild(art);
+
+            total++;
+            contadorTxt.textContent = total;
+        }
+
+        // Cargar noticias iniciales al abrir la web
+        noticiasIniciales.forEach(n => agregarNoticiaAlDOM(n.t, n.d, n.extra || ""));
+
+        // Manejar el formulario de nuevos artículos
+        document.getElementById('form-nuevo-articulo').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const t = document.getElementById('nuevo-titulo').value;
+            const d = document.getElementById('nuevo-desc').value;
+            
+            agregarNoticiaAlDOM(t, d, "", true); // true para que aparezca arriba
+            this.reset();
+        });
+
+
+        /* ==========================================
+           3. FORMULARIO DE CONTACTO
+           ========================================== */
+        document.getElementById('form-contacto').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('cont-nombre').value;
+            alert(`Mensaje enviado con éxito. Gracias por contactar a El Faro, ${nombre}.`);
+            this.reset();
+        });
+    </script>
+</body>
+
+</html>
